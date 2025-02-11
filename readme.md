@@ -5,6 +5,7 @@ This project demonstrates a custom RxJS v7 ajax operator with support for progre
 ## Overview
 
 The project includes a set of helper functions for making AJAX requests with RxJS. It also supports download progress tracking via a custom progress subscriber.
+This project was developed with big help from ChatGPT
 
 ## Features
 
