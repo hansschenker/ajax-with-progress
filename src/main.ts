@@ -1,24 +1,19 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { ajaxGetJSON } from './ajax-operators';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+// Example usage: Fetch data from a public API and log progress events
+const progressSubscriber = {
+  next: (event: ProgressEvent) => {
+    const percentComplete = event.lengthComputable ? (event.loaded / event.total) * 100 : null;
+    console.log('Download Progress:', percentComplete ? percentComplete.toFixed(2) + '%' : 'Progress event received');
+  },
+  error: (err: any) => console.error('Progress Error:', err),
+  complete: () => console.log('Progress complete'),
+};
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+const url = 'https://jsonplaceholder.typicode.com/todos/1';
+
+ajaxGetJSON(url, {}, true, progressSubscriber).subscribe({
+  next: (data) => console.log('Data received:', data),
+  error: (err) => console.error('Error:', err),
+  complete: () => console.log('Request complete'),
+});
